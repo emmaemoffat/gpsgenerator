@@ -1,5 +1,5 @@
 // Find the button by its id
-document.getElementById("generateBtn").addEventListener("click", function () {
+document.getElementById("generateLink").addEventListener("click", function () {
 
   // Get the full pasted text from the textarea
   let text = document.getElementById("addressInput").value;
