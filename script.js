@@ -1,55 +1,70 @@
-// Find the button by its id
-document.getElementById("generateLink").addEventListener("click", function () {
-
-  // Get the full pasted text from the textarea
-  let text = document.getElementById("addressInput").value;
-
-  // Find the output area
+  // Get output div
   let output = document.getElementById("output");
 
-  // Split the pasted text into lines wherever there is a line break
+  // Split into lines
   let lines = text.split("\n");
 
-  // This will store the cleaned addresses
+  // Store cleaned addresses
   let addresses = [];
 
-  // Loop through every line
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i].trim();
 
-    // Skip empty lines
     if (line !== "") {
 
-      // Remove Cityworks number prefix like "79652 - "
+      // Remove "79652 - " style prefix
       line = line.replace(/^\d+\s*-\s*/, "");
 
-      // Optional fix for abbreviated city name
+      // Fix abbreviated city name
       line = line.replace("MCKN", "MCKINNEY");
 
-      // Save cleaned line into addresses array
       addresses.push(line);
     }
   }
 
-  // Clear old output before adding new links
+  // Clear previous output
   output.innerHTML = "";
 
-  // Google Maps can get messy with too many stops,
-  // so break addresses into chunks
-  let chunkSize = 10;
+  // Separate start and end
+  let start = addresses[0];
+  let end = addresses[addresses.length - 1];
 
-  // Loop through addresses in groups of 10
-  for (let i = 0; i < addresses.length; i += chunkSize) {
-    let chunk = addresses.slice(i, i + chunkSize);
+  // Middle stops
+  let stops = addresses.slice(1, addresses.length - 1);
 
-    // Build Google Maps directions URL
-    let url = "https://www.google.com/maps/dir/" + chunk.map(encodeURIComponent).join("/");
+  let chunkSize = 9;
 
-    // Create a clickable link element
+  for (let i = 0; i < stops.length; i += chunkSize) {
+
+    let chunk = stops.slice(i, i + chunkSize);
+
+    let routeAddresses = [];
+
+    if (i === 0) {
+      // First route: start → stops
+      routeAddresses = [start, ...chunk];
+    } else {
+      // Next routes: previous stop → next stops
+      routeAddresses = [stops[i - 1], ...chunk];
+    }
+
+    // Last route includes final destination
+    if (i + chunkSize >= stops.length) {
+      routeAddresses.push(end);
+    }
+
+    // Build Google Maps link
+    let url = "https://www.google.com/maps/dir/" +
+      routeAddresses.map(encodeURIComponent).join("/");
+
+    // Create clickable link
     let link = document.createElement("a");
     link.href = url;
     link.target = "_blank";
-    link.textContent = "Open Route " + (i / chunkSize + 1);
+    link.textContent = "Route " + (i / chunkSize + 1);
 
-    // Put the link into the output area
+    // Add to page
     output.appendChild(link);
+    output.appendChild(document.createElement("br"));
+    output.appendChild(document.createElement("br"));
+  }
