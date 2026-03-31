@@ -1,3 +1,9 @@
+// Attach click event to the button
+document.getElementById("generateLink").addEventListener("click", function () {
+
+  // Get pasted text
+  let text = document.getElementById("addressInput").value;
+
   // Get output div
   let output = document.getElementById("output");
 
@@ -68,3 +74,5 @@
     output.appendChild(document.createElement("br"));
     output.appendChild(document.createElement("br"));
   }
+
+});
