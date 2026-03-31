@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>GPS Generator</title>
+  <script src="script.js"></script>
 </head>
 <body>
 
@@ -13,19 +14,10 @@
 
   <br><br>
 
-  <button onclick="generateLinks()">Generate Links</button>
+  <button id="generateLink">Generate Links</button>
 
   <h2>Links</h2>
   <div id="output"></div>
-
-  <script>
-    function generateLinks() {
-      let text = document.getElementById("addressInput").value;
-      let output = document.getElementById("output");
-
-      output.innerHTML = "JavaScript is working.";
-    }
-  </script>
 
 </body>
 </html>
