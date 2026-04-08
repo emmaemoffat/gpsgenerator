@@ -1,5 +1,5 @@
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text)
+function copyToClipboard(urlToCopy) {
+  navigator.clipboard.writeText(urlToCopy)
     .then(() => {
       alert("Copied to clipboard!");
     })
