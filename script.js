@@ -1,5 +1,14 @@
-// Attach click event to the button
-document.getElementById("generateLink").addEventListener("click", function () {
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text)
+    .then(() => {
+      alert("Copied to clipboard!");
+    })
+    .catch(err => {
+      console.error("Failed to copy: ", err);
+    });
+}
+
+document.getElementById("generateLink").addEventListener("click", function () {  // Function to create the links when button is clicked
 
   // DEFINING VARIABLES
   let output = document.getElementById("output");             // Get output div
@@ -56,10 +65,17 @@ document.getElementById("generateLink").addEventListener("click", function () {
     link.target = "_blank";                                 // open a new tab
     link.textContent = "Route " + (i / chunkSize + 1);      // label
 
+    let copyButton = document.createElement("button");      // create a button to copy Google Maps link
+    copyButton.textContent = "Copy";
     
-    output.appendChild(link);                               // add the link to the page with 2 line breaks
+    copyButton.addEventListener("click", function () {     // when the button is clicked, copy URL
+      copyToClipboard(url);
+    });
+    
+    output.appendChild(link);                              // add link to webpage
+    output.appendChild(copyButton);                        // add button to webpage
     output.appendChild(document.createElement("br"));
     output.appendChild(document.createElement("br"));
-  }
+      }
 
 });
