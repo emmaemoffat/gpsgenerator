@@ -1,76 +1,63 @@
 // Attach click event to the button
 document.getElementById("generateLink").addEventListener("click", function () {
 
-  // Get pasted text
-  let text = document.getElementById("addressInput").value;
+  // DEFINING VARIABLES
+  let output = document.getElementById("output");             // Get output div
+  let text = document.getElementById("addressInput").value;   // Get pasted text
+  let lines = text.split("\n");                               // stores the pasted addresses as elements based on line breaks 
 
-  // Get output div
-  let output = document.getElementById("output");
+  
+  // CLEAN AND STORE ADDRESSES
+  let addresses = [];                           // array that stores cleaned addresses
 
-  // Split into lines
-  let lines = text.split("\n");
-
-  // Store cleaned addresses
-  let addresses = [];
-
-  for (let i = 0; i < lines.length; i++) {
-    let line = lines[i].trim();
-
-    if (line !== "") {
-
-      // Remove "79652 - " style prefix
-      line = line.replace(/^\d+\s*-\s*/, "");
-
-      // Fix abbreviated city name
-      line = line.replace("MCKN", "MCKINNEY");
-
-      addresses.push(line);
+  for (let i = 0; i < lines.length; i++) {      // for (START; CONDITION; CHANGE/INCREMENT)
+    let line = lines[i].trim();                 // Remove extra spaces
+    if (line !== "") {                          // If the line is NOT empty...
+      line = line.replace(/^\d+\s*-\s*/, "");   // Remove "79652 - " style prefix
+      line = line.replace("MCKN", "MCKINNEY");  // Fix abbreviated city name
+      addresses.push(line);                     // Add clean address to array
     }
   }
 
   // Clear previous output
   output.innerHTML = "";
 
-  // Separate start and end
-  let start = addresses[0];
-  let end = addresses[addresses.length - 1];
+  
+  // DEFINING STOPS
+  let start = addresses[0];                              // first stop
+  let end = addresses[addresses.length - 1];             // last stop
+  let stops = addresses.slice(1, addresses.length - 1);  // Middle stops
 
-  // Middle stops
-  let stops = addresses.slice(1, addresses.length - 1);
+  
+  // MAKING ROUTE CHUNKS
+  let chunkSize = 9;                                     // Google maps only allows up to 10 stops
 
-  let chunkSize = 9;
+  for (let i = 0; i < stops.length; i += chunkSize) {    // for (START; CONDITION; CHANGE/INCREMENT) 
+    let chunk = stops.slice(i, i + chunkSize);           // grabs 9 stops
 
-  for (let i = 0; i < stops.length; i += chunkSize) {
+  //BUILDING ROUTES
+    let routeAddresses = [];                             // array that stores the route for Google Maps
 
-    let chunk = stops.slice(i, i + chunkSize);
-
-    let routeAddresses = [];
-
-    if (i === 0) {
-      // First route: start → stops
-      routeAddresses = [start, ...chunk];
-    } else {
-      // Next routes: previous stop → next stops
-      routeAddresses = [stops[i - 1], ...chunk];
+    if (i === 0) {                                       // if on the first loop...
+      routeAddresses = [start, ...chunk];                // the route is the start + 1st chunk
+    } else {                                             // for all other routes...
+      routeAddresses = [stops[i - 1], ...chunk];         // start with the last stop of the previous route + next chunk
+    }
+    if (i + chunkSize >= stops.length) {                 // if this is the final chunk...
+      routeAddresses.push(end);                          // add the end stop to the end
     }
 
-    // Last route includes final destination
-    if (i + chunkSize >= stops.length) {
-      routeAddresses.push(end);
-    }
+    let url = "https://www.google.com/maps/dir/" +       // making the google maps link
+      routeAddresses.map(encodeURIComponent).join("/");  // convert all text in array to URL-safe version
 
-    // Build Google Maps link
-    let url = "https://www.google.com/maps/dir/" +
-      routeAddresses.map(encodeURIComponent).join("/");
+    // DISPLAY THE LINK ON THE WEBPAGE
+    let link = document.createElement("a");                 // creating a clickable link element (<a></a>)
+    link.href = url;                                        // where the url goes
+    link.target = "_blank";                                 // open a new tab
+    link.textContent = "Route " + (i / chunkSize + 1);      // label
 
-    // Create clickable link
-    let link = document.createElement("a");
-    link.href = url;
-    link.target = "_blank";
-    link.textContent = "Route " + (i / chunkSize + 1);
-
-    // Add to page
-    output.appendChild(link);
+    
+    output.appendChild(link);                               // add the link to the page with 2 line breaks
     output.appendChild(document.createElement("br"));
     output.appendChild(document.createElement("br"));
   }
