@@ -73,9 +73,12 @@ document.getElementById("generateLink").addEventListener("click", function () { 
     });
     
     output.appendChild(link);                              // add link to webpage
-    output.appendChild(copyButton);                        // add button to webpage
     output.appendChild(document.createElement("br"));
     output.appendChild(document.createElement("br"));
+
+    output2.appendChild(copyButton);                        // add button to webpage
+    output2.appendChild(document.createElement("br"));
+    output2.appendChild(document.createElement("br"));
       }
 
 });
