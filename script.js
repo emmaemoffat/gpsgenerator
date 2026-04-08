@@ -66,19 +66,20 @@ document.getElementById("generateLink").addEventListener("click", function () { 
     link.textContent = "Route " + (i / chunkSize + 1);      // label
 
     let copyButton = document.createElement("button");      // create a button to copy Google Maps link
-    copyButton.textContent = "Copy";
+        copyButton.textContent = "Copy";
     
-    copyButton.addEventListener("click", function () {     // when the button is clicked, copy URL
-      copyToClipboard(url);
-    });
+        copyButton.addEventListener("click", function () {  // when the button is clicked, copy URL
+          copyToClipboard(url);
+        });
     
-    output.appendChild(link);                              // add link to webpage
-    output.appendChild(document.createElement("br"));
-    output.appendChild(document.createElement("br"));
-
-    output2.appendChild(copyButton);                        // add button to webpage
-    output2.appendChild(document.createElement("br"));
-    output2.appendChild(document.createElement("br"));
+        // ADD BOTH TO PAGE
+        let routeRow = document.createElement("div");
+        routeRow.appendChild(link);
+        routeRow.appendChild(document.createTextNode(" "));
+        routeRow.appendChild(copyButton);
+    
+        output.appendChild(routeRow);
+        output.appendChild(document.createElement("br"));
       }
 
 });
