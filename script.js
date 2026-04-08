@@ -1,13 +1,3 @@
-function copyToClipboard(urlToCopy) {
-  navigator.clipboard.writeText(urlToCopy)
-    .then(() => {
-      alert("Copied to clipboard!");
-    })
-    .catch(err => {
-      console.error("Failed to copy: ", err);
-    });
-}
-
 document.getElementById("generateLink").addEventListener("click", function () {  // Function to create the links when button is clicked
 
   // DEFINING VARIABLES
@@ -65,21 +55,9 @@ document.getElementById("generateLink").addEventListener("click", function () { 
     link.target = "_blank";                                 // open a new tab
     link.textContent = "Route " + (i / chunkSize + 1);      // label
 
-    let copyButton = document.createElement("button");      // create a button to copy Google Maps link
-        copyButton.textContent = "Copy";
-    
-        copyButton.addEventListener("click", function () {  // when the button is clicked, copy URL
-          copyToClipboard(url);
-        });
-    
-        // ADD BOTH TO PAGE
-        let routeRow = document.createElement("div");
-        routeRow.appendChild(link);
-        routeRow.appendChild(document.createTextNode(" "));
-        routeRow.appendChild(copyButton);
-    
-        output.appendChild(routeRow);
-        output.appendChild(document.createElement("br"));
+    output.appendChild(link);                               // add link to page
+    output.appendChild(document.createElement("br"));
+    output.appendChild(document.createElement("br"));
       }
 
 });
