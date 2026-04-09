@@ -1,1 +1,7 @@
-
+#wavingGuy {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 120px;
+  height: auto;
+}
