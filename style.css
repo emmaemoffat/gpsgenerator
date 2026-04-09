@@ -1,7 +1,7 @@
 #wavingGuy {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 120px;
+  bottom: 5px;
+  right: 5px;
+  width: 30px;
   height: auto;
 }
