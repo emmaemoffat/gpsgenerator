@@ -55,17 +55,19 @@ document.getElementById("generateLink").addEventListener("click", function () { 
     link.target = "_blank";                                 // open a new tab
     link.textContent = "Route " + (i / chunkSize + 1);      // label
 
-    let copyBtn = document.createElement("button");
-    copyBtn.textContent = "Copy";
-    copyBtn.addEventListener("click", function () {
-      navigator.clipboard.writeText(url).then(function () {
-        copyBtn.textContent = "Copied! :)";
-      setTimeout(() => copyBtn.textContent = "Copy", 2000); // resets after 2 seconds
+    let copyBtn = document.createElement("button");               // make the Copy button
+    copyBtn.classList.add("copyBtn");                             // class for css styling
+    copyBtn.textContent = "Copy";                          
+    copyBtn.addEventListener("click", function () {               // when the button is clicked...
+      navigator.clipboard.writeText(url)                          // write the url to the clipboard
+        .then(function () {                         
+          copyBtn.textContent = "Copied! :)";                     // change the text in the button
+          setTimeout(() => copyBtn.textContent = "Copy", 2000);   // resets after 2 seconds
       });
     });
-    output.appendChild(link);                               // add link to page
-    output.appendChild(document.createTextNode(" "));  // space between link and button
-    output.appendChild(copyBtn);
+    
+    output.appendChild(link);                               // add link to page  
+    output.appendChild(copyBtn);                            // space between link and button
     output.appendChild(document.createElement("br"));
     output.appendChild(document.createElement("br"));
       }
