@@ -64,6 +64,9 @@ document.getElementById("generateLink").addEventListener("click", function () { 
       });
     });
     output.appendChild(link);                               // add link to page
+    output.appendChild(link);
+    output.appendChild(document.createTextNode(" "));  // space between link and button
+    output.appendChild(copyBtn);
     output.appendChild(document.createElement("br"));
     output.appendChild(document.createElement("br"));
       }
