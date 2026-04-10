@@ -8,3 +8,12 @@
   width: 100px;
   height: auto;
 }
+
+.copyBtn {
+  margin-left: 10px;
+}
+
+.truckImg {
+  height: 50px;
+  vertical-align: middle;
+}
